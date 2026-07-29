@@ -65,9 +65,13 @@ function ShelfBooks({ layout, books, highlight }: { layout: any; books: any[]; h
   // 预生成所有书的 mesh
   const meshes = useMemo(() => books.map((b) => createBookMesh({ stub: b })), [books]);
 
+  // 移动端只显示 6 本/架，桌面端 12 本
+  const isMobile = typeof navigator !== 'undefined' && /iPhone|iPad|iPod|Android|Mobile/i.test(navigator.userAgent);
+  const visibleBooks = isMobile ? books.slice(0, 6) : books.slice(0, 12);
+
   return (
     <group>
-      {books.map((book, idx) => {
+      {visibleBooks.map((book, idx) => {
         const slot = idx % 5;
         const lvl = Math.floor(idx / 5);
         const x = -1.0 + slot * 0.5;

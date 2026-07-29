@@ -4,6 +4,15 @@ import App from './App';
 import { detectWebGL } from './lib/utils/webgl';
 import './styles/global.css';
 
+// 注册 Service Worker（PWA 离线缓存 + 可安装）
+if ('serviceWorker' in navigator && import.meta.env.PROD) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(() => {
+      // 静默失败即可
+    });
+  });
+}
+
 // 全局错误捕获
 window.addEventListener('error', (e) => {
   console.error('[GlobalError]', e.error ?? e.message);

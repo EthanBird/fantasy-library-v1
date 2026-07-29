@@ -9,6 +9,7 @@ import { ModalLayer } from '@/components/modals/ModalLayer';
 import { Notification } from '@/components/hud/Notification';
 import { BootScreen } from '@/components/BootScreen';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
+import { PWAInstallPrompt } from '@/components/PWAInstallPrompt';
 
 export default function App() {
   const [booted, setBooted] = useState(false);
@@ -82,6 +83,7 @@ export default function App() {
         <HUD />
         <ModalLayer />
         <Notification />
+        <PWAInstallPrompt />
       </>
     </ErrorBoundary>
   );

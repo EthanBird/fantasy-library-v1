@@ -20,3 +20,7 @@ test-results
 *.njsproj
 *.sln
 *.sw?
+
+# 生成的素材源文件（不打包）
+assets-source/
+

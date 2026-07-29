@@ -16,6 +16,14 @@ interface SettingsState extends UserSettings {
   hasApiKey: () => boolean;
 }
 
+// 设备检测：移动端默认 mid，桌面端默认 high
+function detectInitialQuality(): QualityPreset {
+  if (typeof navigator === 'undefined') return 'mid';
+  const isMobile = /mobile|android|ios|iphone|ipad/i.test(navigator.userAgent);
+  if (isMobile) return 'mid';
+  return 'high';
+}
+
 const DEFAULT: UserSettings = {
   api: {
     baseUrl: 'https://api.openai.com/v1',
@@ -25,10 +33,10 @@ const DEFAULT: UserSettings = {
   },
   visuals: {
     enableBloom: true,
-    enableVolumetric: true,
+    enableVolumetric: false,    // 移动端关掉
     enableParticles: true,
     enableAnimations: true,
-    qualityPreset: 'high',
+    qualityPreset: detectInitialQuality(),
     fov: 70,
   },
   audio: {
