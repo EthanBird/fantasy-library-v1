@@ -3,17 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "homepage": "https://EthanBird.github.io/fantasy-library-v1",
   "description": "An immersive 3D fantasy library with AI-generated infinite books",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint . --ext .ts,.tsx --max-warnings 0",
     "format": "prettier --write \"src/**/*.{ts,tsx,css,json,md}\"",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "deploy": "npm run build && gh-pages -d dist -b gh-pages"
   },
   "dependencies": {
     "@react-three/drei": "^9.105.0",
