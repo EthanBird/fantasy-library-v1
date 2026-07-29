@@ -3,19 +3,18 @@ import { useThree, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { useSettingsStore } from '@/stores/settingsStore';
 import { usePlayerStore } from '@/stores/playerStore';
-import { useUIStore } from '@/stores/uiStore';
 
 export interface PointerLockControlsRef {
   lock: () => void;
   unlock: () => void;
   isLocked: () => boolean;
-  move: (dx: number, dz: number) => void;
-  setRotation: (yaw: number, pitch: number) => void;
+  setMovement: (x: number, y: number) => void;   // -1..1
+  addLookDelta: (dx: number, dy: number) => void;
   getCamera: () => THREE.PerspectiveCamera;
 }
 
-const WALK_SPEED = 4.0; // m/s
-const RUN_SPEED = 6.5; // m/s
+const WALK_SPEED = 4.0;
+const RUN_SPEED = 6.5;
 const PITCH_LIMIT = Math.PI / 2 - 0.05;
 
 interface Props {
@@ -32,18 +31,17 @@ export const PointerLockControls = forwardRef<PointerLockControlsRef, Props>(fun
   const setPosition = usePlayerStore((s) => s.setPosition);
   const setRotation = usePlayerStore((s) => s.setRotation);
   const setRunning = usePlayerStore((s) => s.setRunning);
-  const setReading = usePlayerStore((s) => s.setReading);
   const fov = useSettingsStore((s) => s.visuals.fov);
   const isReading = usePlayerStore((s) => s.isReading);
 
   const keys = useRef({ w: false, a: false, s: false, d: false, shift: false });
+  const externalMove = useRef({ x: 0, y: 0 });     // 来自触屏摇杆
   const yawRef = useRef(usePlayerStore.getState().yaw);
   const pitchRef = useRef(usePlayerStore.getState().pitch);
   const isLockedRef = useRef(false);
   const lastSaveRef = useRef(0);
   const positionRef = useRef<THREE.Vector3>(new THREE.Vector3(0, 1.6, 4));
 
-  // 同步初始位置/朝向
   useEffect(() => {
     const p = usePlayerStore.getState().position;
     const y = usePlayerStore.getState().yaw;
@@ -67,22 +65,26 @@ export const PointerLockControls = forwardRef<PointerLockControlsRef, Props>(fun
     camera.quaternion.setFromEuler(euler);
   }
 
-  // 鼠标移动（pointer lock 期间）
+  // 鼠标（桌面端 pointer lock）
   useEffect(() => {
     const canvas = gl.domElement;
     const onMouseMove = (e: MouseEvent) => {
       if (!isLockedRef.current) return;
       const sens = 0.0025;
-      yawRef.current -= e.movementX * sens;
-      pitchRef.current -= e.movementY * sens;
-      pitchRef.current = Math.max(-PITCH_LIMIT, Math.min(PITCH_LIMIT, pitchRef.current));
-      applyRotation();
+      addLookDelta(-e.movementX * sens, -e.movementY * sens);
     };
     canvas.addEventListener('mousemove', onMouseMove);
     return () => canvas.removeEventListener('mousemove', onMouseMove);
   }, [gl]);
 
-  // 滚轮调整 FOV
+  function addLookDelta(dx: number, dy: number) {
+    yawRef.current -= dx;
+    pitchRef.current -= dy;
+    pitchRef.current = Math.max(-PITCH_LIMIT, Math.min(PITCH_LIMIT, pitchRef.current));
+    applyRotation();
+  }
+
+  // 滚轮 FOV
   useEffect(() => {
     const canvas = gl.domElement;
     const onWheel = (e: WheelEvent) => {
@@ -95,7 +97,7 @@ export const PointerLockControls = forwardRef<PointerLockControlsRef, Props>(fun
     return () => canvas.removeEventListener('wheel', onWheel);
   }, [gl, fov]);
 
-  // 键盘
+  // 键盘（桌面端 WASD + Shift）
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
       const k = e.key.toLowerCase();
@@ -123,7 +125,7 @@ export const PointerLockControls = forwardRef<PointerLockControlsRef, Props>(fun
     };
   }, [setRunning]);
 
-  // pointer lock 状态变化
+  // pointer lock 状态
   useEffect(() => {
     const canvas = gl.domElement;
     const onPointerLockChange = () => {
@@ -143,9 +145,18 @@ export const PointerLockControls = forwardRef<PointerLockControlsRef, Props>(fun
     };
   }, [gl, setPointerLocked]);
 
-  // 帧更新：移动
+  // 帧更新
   useFrame((_state, delta) => {
-    if (!isLockedRef.current || !enabled || isReading) return;
+    if (!enabled || isReading) return;
+    // 移动端摇杆 + 桌面端键盘合并
+    const usingTouch = Math.abs(externalMove.current.x) > 0.01 || Math.abs(externalMove.current.y) > 0.01;
+    const usingKeys = keys.current.w || keys.current.a || keys.current.s || keys.current.d;
+    if (!usingTouch && !usingKeys) return;
+
+    // 桌面端 pointer lock 期间 或 移动端始终允许移动
+    const isMobile = /iPhone|iPad|iPod|Android|Mobile/i.test(navigator.userAgent);
+    if (!isMobile && !isLockedRef.current) return;
+
     const running = keys.current.shift;
     const speed = (running ? RUN_SPEED : WALK_SPEED) * delta;
 
@@ -157,6 +168,13 @@ export const PointerLockControls = forwardRef<PointerLockControlsRef, Props>(fun
     right.crossVectors(forward, new THREE.Vector3(0, 1, 0)).normalize();
 
     let dx = 0, dz = 0;
+    if (usingTouch) {
+      // 触屏：x = 左右（转向后的左右），y = 前后
+      dx += forward.x * (-externalMove.current.y) * speed;
+      dz += forward.z * (-externalMove.current.y) * speed;
+      dx += right.x * externalMove.current.x * speed;
+      dz += right.z * externalMove.current.x * speed;
+    }
     if (keys.current.w) { dx += forward.x * speed; dz += forward.z * speed; }
     if (keys.current.s) { dx -= forward.x * speed; dz -= forward.z * speed; }
     if (keys.current.d) { dx += right.x * speed; dz += right.z * speed; }
@@ -167,8 +185,6 @@ export const PointerLockControls = forwardRef<PointerLockControlsRef, Props>(fun
       positionRef.current.z += dz;
       camera.position.copy(positionRef.current);
       onMove?.(positionRef.current);
-
-      // 节流保存到 store（每 250ms 一次）
       const now = performance.now();
       if (now - lastSaveRef.current > 250) {
         lastSaveRef.current = now;
@@ -182,23 +198,15 @@ export const PointerLockControls = forwardRef<PointerLockControlsRef, Props>(fun
     lock: () => {
       const canvas = gl.domElement;
       if (document.pointerLockElement !== canvas) {
-        canvas.requestPointerLock();
+        try { canvas.requestPointerLock(); } catch {/* 移动端会失败，忽略 */}
       }
     },
     unlock: () => {
       if (document.pointerLockElement) document.exitPointerLock();
     },
     isLocked: () => isLockedRef.current,
-    move: (dx, dz) => {
-      positionRef.current.x += dx;
-      positionRef.current.z += dz;
-      camera.position.copy(positionRef.current);
-    },
-    setRotation: (yaw, pitch) => {
-      yawRef.current = yaw;
-      pitchRef.current = pitch;
-      applyRotation();
-    },
+    setMovement: (x, y) => { externalMove.current = { x, y }; },
+    addLookDelta: (dx, dy) => addLookDelta(dx, dy),
     getCamera: () => camera as THREE.PerspectiveCamera,
   }));
 

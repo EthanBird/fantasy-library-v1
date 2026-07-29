@@ -1,7 +1,7 @@
 import type { HallDefinition, HallId, ShelfLayout } from '@/types';
 
 /**
- * 7 个馆厅的完整参数定义
+ * 7 个馆厅的完整参数定义（v2 - 调亮版，温暖明亮不压抑）
  * 所有几何/材质/灯光/粒子都从这里的常量生成
  */
 
@@ -44,7 +44,7 @@ function makeGridLayout(
 }
 
 // ============================================================================
-// 中央大厅
+// 中央大厅 - 温暖金黄色调
 // ============================================================================
 const centralLayout: ShelfLayout[] = makeGridLayout(
   'central',
@@ -67,7 +67,7 @@ const centralLayout: ShelfLayout[] = makeGridLayout(
 );
 
 // ============================================================================
-// 古木回廊
+// 古木回廊 - 暖棕蜜糖色调
 // ============================================================================
 const woodCategories = [
   { category: '上古编年', theme: 'history' as const },
@@ -109,7 +109,7 @@ const woodLayout: ShelfLayout[] = woodCategories.map((cat, i) => {
 });
 
 // ============================================================================
-// 星象台
+// 星象台 - 星空蓝紫但提亮，月光感
 // ============================================================================
 const astroCategories = [
   { category: '黄道十二宫', theme: 'mystery' as const },
@@ -145,7 +145,6 @@ const astroCategories = [
 ];
 
 const astroLayout: ShelfLayout[] = astroCategories.map((cat, i) => {
-  // 弧形靠墙
   const angle = (i / astroCategories.length) * Math.PI * 2;
   const radius = 11;
   return {
@@ -162,7 +161,7 @@ const astroLayout: ShelfLayout[] = astroCategories.map((cat, i) => {
 });
 
 // ============================================================================
-// 水晶书阁
+// 水晶书阁 - 明亮乳白珍珠色调
 // ============================================================================
 const crystalCategories = [
   { category: '纯理初论', theme: 'math' as const },
@@ -209,7 +208,7 @@ const crystalLayout: ShelfLayout[] = crystalCategories.map((cat, i) => {
 });
 
 // ============================================================================
-// 炼金密室
+// 炼金密室 - 暖绿铜色调（不暗）
 // ============================================================================
 const alchemyCategories = [
   { category: '炼金要旨', theme: 'magic' as const },
@@ -261,39 +260,39 @@ const alchemyLayout: ShelfLayout[] = alchemyCategories.map((cat, i) => {
 });
 
 // ============================================================================
-// 虚空深渊
+// 虚空深渊 - 改为「星海」- 紫罗兰渐变天空，更明亮梦幻
 // ============================================================================
 const voidCategories = [
-  { category: '虚无本体论', theme: 'philosophy' as const },
-  { category: '死亡研究', theme: 'philosophy' as const },
-  { category: '形而上学', theme: 'philosophy' as const },
-  { category: '深渊神话', theme: 'literature' as const },
-  { category: '忘川之歌', theme: 'poetry' as const },
-  { category: '墓园戒律', theme: 'mystery' as const },
-  { category: '末世论', theme: 'philosophy' as const },
-  { category: '苦短集', theme: 'poetry' as const },
-  { category: '魂魄考', theme: 'mystery' as const },
-  { category: '虚空诗抄', theme: 'poetry' as const },
-  { category: '玄学初论', theme: 'philosophy' as const },
-  { category: '彼岸寓言', theme: 'literature' as const },
-  { category: '梦与醒', theme: 'philosophy' as const },
-  { category: '黑镜抄本', theme: 'literature' as const },
-  { category: '末日残卷', theme: 'mystery' as const },
-  { category: '黄昏手记', theme: 'philosophy' as const },
-  { category: '星渊挽歌', theme: 'poetry' as const },
-  { category: '魂归考辨', theme: 'philosophy' as const },
-  { category: '暗面宣言', theme: 'literature' as const },
-  { category: '沉眠之书', theme: 'mystery' as const },
-  { category: '葬仪考', theme: 'history' as const },
-  { category: '虚空民俗', theme: 'history' as const },
-  { category: '无名氏集', theme: 'poetry' as const },
-  { category: '存在论辩', theme: 'philosophy' as const },
-  { category: '永夜歌行', theme: 'poetry' as const },
-  { category: '终结之论', theme: 'philosophy' as const },
-  { category: '黑色弥撒', theme: 'literature' as const },
-  { category: '深渊经', theme: 'literature' as const },
-  { category: '守夜人手记', theme: 'literature' as const },
-  { category: '残响', theme: 'poetry' as const },
+  { category: '万象源流', theme: 'philosophy' as const },
+  { category: '晨光诗集', theme: 'poetry' as const },
+  { category: '云端游记', theme: 'literature' as const },
+  { category: '星海地图', theme: 'fantasy' as const },
+  { category: '晨曦寓言', theme: 'poetry' as const },
+  { category: '远方游吟', theme: 'history' as const },
+  { category: '未来考古', theme: 'philosophy' as const },
+  { category: '黎明集', theme: 'poetry' as const },
+  { category: '清风抄本', theme: 'mystery' as const },
+  { category: '星海诗抄', theme: 'poetry' as const },
+  { category: '天际初论', theme: 'philosophy' as const },
+  { category: '远方寓言', theme: 'literature' as const },
+  { category: '梦与晨', theme: 'philosophy' as const },
+  { category: '云端抄本', theme: 'literature' as const },
+  { category: '明日残卷', theme: 'mystery' as const },
+  { category: '清晨手记', theme: 'philosophy' as const },
+  { category: '星海挽歌', theme: 'poetry' as const },
+  { category: '晨风考辨', theme: 'philosophy' as const },
+  { category: '远方宣言', theme: 'literature' as const },
+  { category: '轻梦之书', theme: 'mystery' as const },
+  { category: '云端民俗', theme: 'history' as const },
+  { category: '流云考', theme: 'history' as const },
+  { category: '无名集', theme: 'poetry' as const },
+  { category: '天际论辩', theme: 'philosophy' as const },
+  { category: '黎明歌行', theme: 'poetry' as const },
+  { category: '归途之论', theme: 'philosophy' as const },
+  { category: '云端弥撒', theme: 'literature' as const },
+  { category: '星海经', theme: 'literature' as const },
+  { category: '守星人手记', theme: 'literature' as const },
+  { category: '远潮', theme: 'poetry' as const },
 ];
 
 const voidLayout: ShelfLayout[] = voidCategories.map((cat, i) => {
@@ -313,7 +312,7 @@ const voidLayout: ShelfLayout[] = voidCategories.map((cat, i) => {
 });
 
 // ============================================================================
-// 现实之门
+// 现实之门 - 明亮现代学院风
 // ============================================================================
 const realSubjects = [
   '数学', '物理', '化学', '生物', '计算机', '文学', '历史', '哲学',
@@ -338,42 +337,41 @@ const realLayout: ShelfLayout[] = realSubjects.map((subj, i) => {
 });
 
 // ============================================================================
-// 7 个馆厅的完整定义
+// 7 个馆厅的完整定义（v2 - 调亮版）
 // ============================================================================
 export const HALLS: Record<HallId, HallDefinition> = {
   central: {
     id: 'central',
     name: { zh: '中央大厅', en: 'Central Atrium' },
     description: '巨大圆形大厅，中央悬浮水晶球作为全局搜索终端。',
-    themeColor: '#3b2f6b',
-    accentColor: '#d4af37',
+    themeColor: '#c8a857',
+    accentColor: '#ffd97a',
     switchThemeOnEnter: 'fantasy',
     shelfLayout: centralLayout,
     parameters: {
       roomShape: 'circle',
       roomSize: [18, 12, 18],
-      floor: { color: '#1a1430', roughness: 0.4, metalness: 0.2, reflectivity: 0.6, pattern: 'marble' },
-      ceiling: { kind: 'skydome', starCount: 800, nebula: true },
-      walls: { color: '#2a1f3a', roughness: 0.85, metalness: 0.1 },
-      ambient: { color: '#3a3060', intensity: 0.35 },
-      fog: { color: '#1a1430', near: 20, far: 60 },
+      floor: { color: '#d4b888', roughness: 0.45, metalness: 0.15, reflectivity: 0.5, pattern: 'marble' },
+      ceiling: { kind: 'skydome', starCount: 400, nebula: true },
+      walls: { color: '#a89070', roughness: 0.85, metalness: 0.05 },
+      ambient: { color: '#fff5e0', intensity: 0.85 },
       lighting: {
-        hemisphere: { intensity: 0.2 },
-        directional: { color: '#fff5e0', intensity: 1.2, shadow: true },
+        hemisphere: { intensity: 0.6 },
+        directional: { color: '#fff5e0', intensity: 1.6, shadow: true },
         spots: Array.from({ length: 6 }, (_, i) => ({
           color: '#ffe9b5',
-          intensity: 1.0,
+          intensity: 1.2,
           position: [Math.cos((i / 6) * Math.PI * 2) * 8, 8, Math.sin((i / 6) * Math.PI * 2) * 8] as [number, number, number],
           angle: 0.5,
           distance: 14,
         })),
         pointLights: [],
       },
-      particles: { dust: 100, runes: 6, stars: 200 },
+      particles: { dust: 60, runes: 6, stars: 100 },
       volumetricBeams: 3,
       shelves: { count: 6, pattern: 'ring' },
-      centerProp: { kind: 'crystal-ball', scale: 1.2, emissive: '#a890ff', rotation: true },
-      audio: { ambientGain: 0.4, reverb: 'cathedral' },
+      centerProp: { kind: 'crystal-ball', scale: 1.2, emissive: '#fff0a8', rotation: true },
+      audio: { ambientGain: 0.35, reverb: 'cathedral' },
       unlockCondition: { kind: 'always' },
     },
   },
@@ -381,37 +379,36 @@ export const HALLS: Record<HallId, HallDefinition> = {
   wood: {
     id: 'wood',
     name: { zh: '古木回廊', en: 'Ancient Wood Gallery' },
-    description: '暖棕色调，巨大古树化身书架，藤蔓缠绕，萤火虫飘移。',
-    themeColor: '#6b4a25',
-    accentColor: '#ffb05a',
+    description: '暖蜜糖色调，巨大古树化身书架，藤蔓缠绕，萤火虫飘移。',
+    themeColor: '#d4a574',
+    accentColor: '#ffc880',
     switchThemeOnEnter: 'fantasy',
     shelfLayout: woodLayout,
     parameters: {
       roomShape: 'rect',
       roomSize: [22, 10, 14],
-      floor: { color: '#3a2818', roughness: 0.95, metalness: 0, pattern: 'wood' },
-      ceiling: { kind: 'solid', color: '#2a1c10', pattern: 'beam' },
-      walls: { color: '#4a2f1c', roughness: 0.95, metalness: 0, pattern: 'wood' },
-      ambient: { color: '#5a3a20', intensity: 0.4 },
-      fog: { color: '#3a2818', near: 18, far: 50 },
+      floor: { color: '#c89868', roughness: 0.85, metalness: 0, pattern: 'wood' },
+      ceiling: { kind: 'solid', color: '#e8b888', pattern: 'beam' },
+      walls: { color: '#d4a070', roughness: 0.9, metalness: 0, pattern: 'wood' },
+      ambient: { color: '#ffe8c0', intensity: 0.85 },
       lighting: {
-        hemisphere: { intensity: 0.3 },
-        directional: { color: '#ffd9a8', intensity: 0.6, shadow: true },
+        hemisphere: { intensity: 0.7 },
+        directional: { color: '#fff0c8', intensity: 1.2, shadow: true },
         spots: [],
         pointLights: Array.from({ length: 10 }, (_, i) => ({
-          color: '#ffaa55',
-          intensity: 0.9,
+          color: '#ffc880',
+          intensity: 1.0,
           position: [(-9 + (i % 5) * 4.5), 4, -6 + Math.floor(i / 5) * 6] as [number, number, number],
-          distance: 5,
+          distance: 6,
           flicker: true,
         })),
         emissiveAccents: [],
       },
-      particles: { dust: 80, fireflies: 30 },
+      particles: { dust: 60, fireflies: 25 },
       volumetricBeams: 2,
       shelves: { count: 20, pattern: 'grid' },
-      centerProp: { kind: 'ancient-tree', scale: 1.5, emissive: '#4a3018' },
-      audio: { ambientGain: 0.5, reverb: 'wood' },
+      centerProp: { kind: 'ancient-tree', scale: 1.5, emissive: '#a8784a' },
+      audio: { ambientGain: 0.4, reverb: 'wood' },
       unlockCondition: { kind: 'always' },
     },
   },
@@ -419,37 +416,36 @@ export const HALLS: Record<HallId, HallDefinition> = {
   astro: {
     id: 'astro',
     name: { zh: '星象台', en: 'Astronomy Wing' },
-    description: '圆形塔楼，弧形高塔书架，地面映射星图，穹顶为实时星空。',
-    themeColor: '#2a3a7a',
-    accentColor: '#8acaff',
+    description: '月光蓝紫调，弧形高塔书架，地面映射星图，穹顶为夜空。',
+    themeColor: '#8a8ad0',
+    accentColor: '#c8c8ff',
     switchThemeOnEnter: 'fantasy',
     shelfLayout: astroLayout,
     parameters: {
       roomShape: 'tower',
       roomSize: [14, 18, 14],
-      floor: { color: '#0a1840', roughness: 0.3, metalness: 0.4, reflectivity: 0.4, pattern: 'star' },
-      ceiling: { kind: 'skydome', starCount: 1500, nebula: true },
-      walls: { color: '#1a2a5a', roughness: 0.6, metalness: 0.3, pattern: 'rune' },
-      ambient: { color: '#1a2a6a', intensity: 0.3 },
-      fog: { color: '#0a1840', near: 25, far: 70 },
+      floor: { color: '#6a78c0', roughness: 0.4, metalness: 0.3, reflectivity: 0.4, pattern: 'star' },
+      ceiling: { kind: 'skydome', starCount: 1200, nebula: true },
+      walls: { color: '#8888b8', roughness: 0.6, metalness: 0.2, pattern: 'rune' },
+      ambient: { color: '#d8d8f0', intensity: 0.75 },
       lighting: {
-        hemisphere: { intensity: 0.25 },
-        directional: { color: '#aaccff', intensity: 0.8, shadow: true },
+        hemisphere: { intensity: 0.7 },
+        directional: { color: '#ffffff', intensity: 1.0, shadow: true },
         spots: [
-          { color: '#aaccff', intensity: 1.2, position: [0, 14, 0], angle: 0.6, distance: 18 },
+          { color: '#e8e8ff', intensity: 1.4, position: [0, 14, 0], angle: 0.6, distance: 18 },
         ],
         pointLights: [],
         emissiveAccents: Array.from({ length: 8 }, (_, i) => ({
           position: [Math.cos((i / 8) * Math.PI * 2) * 5, 6, Math.sin((i / 8) * Math.PI * 2) * 5] as [number, number, number],
-          color: '#5588ff',
-          intensity: 0.6,
+          color: '#a8b8ff',
+          intensity: 0.5,
         })),
       },
-      particles: { dust: 60, runes: 8, stars: 300 },
+      particles: { dust: 50, runes: 6, stars: 200 },
       volumetricBeams: 1,
       shelves: { count: 30, pattern: 'arc' },
-      centerProp: { kind: 'crystal-cluster', scale: 1.0, emissive: '#5588ff' },
-      audio: { ambientGain: 0.45, reverb: 'cathedral' },
+      centerProp: { kind: 'crystal-cluster', scale: 1.0, emissive: '#a8b8ff' },
+      audio: { ambientGain: 0.4, reverb: 'cathedral' },
       unlockCondition: { kind: 'themeBooks', theme: 'fantasy', count: 5 },
     },
   },
@@ -457,23 +453,23 @@ export const HALLS: Record<HallId, HallDefinition> = {
   crystal: {
     id: 'crystal',
     name: { zh: '水晶书阁', en: 'Crystal Archive' },
-    description: '八边形透明水晶棱柱书架，光线折射，冷白色调。',
-    themeColor: '#a0c0d0',
+    description: '乳白珍珠色调，透明水晶棱柱书架，光线折射晶莹。',
+    themeColor: '#e8eef4',
     accentColor: '#ffffff',
     switchThemeOnEnter: 'fantasy',
     shelfLayout: crystalLayout,
     parameters: {
       roomShape: 'octagon',
       roomSize: [12, 9, 12],
-      floor: { color: '#d8e8f0', roughness: 0.1, metalness: 0.1, reflectivity: 0.9 },
-      ceiling: { kind: 'solid', color: '#c0d0d8', pattern: 'plain' },
-      walls: { color: '#b0c8d8', roughness: 0.05, metalness: 0.1, pattern: 'plain' },
-      ambient: { color: '#b0c8d8', intensity: 0.5 },
+      floor: { color: '#f4f8fc', roughness: 0.15, metalness: 0.05, reflectivity: 0.85 },
+      ceiling: { kind: 'solid', color: '#e8eef4', pattern: 'plain' },
+      walls: { color: '#e0e8f0', roughness: 0.1, metalness: 0.05, pattern: 'plain' },
+      ambient: { color: '#ffffff', intensity: 0.95 },
       lighting: {
-        hemisphere: { intensity: 0.5 },
-        directional: { color: '#ffffff', intensity: 0.6, shadow: true },
+        hemisphere: { intensity: 0.85 },
+        directional: { color: '#ffffff', intensity: 1.0, shadow: true },
         spots: [
-          { color: '#ffffff', intensity: 1.0, position: [0, 7, 0], angle: 0.7, distance: 14 },
+          { color: '#ffffff', intensity: 1.2, position: [0, 7, 0], angle: 0.7, distance: 14 },
         ],
         pointLights: Array.from({ length: 6 }, (_, i) => ({
           color: '#ffffff',
@@ -482,11 +478,11 @@ export const HALLS: Record<HallId, HallDefinition> = {
           distance: 7,
         })),
       },
-      particles: { dust: 100, orbs: 30 },
+      particles: { dust: 80, orbs: 25 },
       volumetricBeams: 1,
       shelves: { count: 25, pattern: 'ring' },
       centerProp: { kind: 'crystal-cluster', scale: 1.0, emissive: '#ffffff' },
-      audio: { ambientGain: 0.35, reverb: 'crystal' },
+      audio: { ambientGain: 0.3, reverb: 'crystal' },
       unlockCondition: { kind: 'themeBooks', theme: 'mystery', count: 3 },
     },
   },
@@ -494,74 +490,72 @@ export const HALLS: Record<HallId, HallDefinition> = {
   alchemy: {
     id: 'alchemy',
     name: { zh: '炼金密室', en: 'Alchemy Chamber' },
-    description: '暗绿铜金调，金属管道与烧瓶陈列架，蒸汽升腾。',
-    themeColor: '#4a6840',
-    accentColor: '#aacc66',
+    description: '暖绿铜色调，金属管道与烧瓶陈列架，温暖蒸汽升腾。',
+    themeColor: '#a8c890',
+    accentColor: '#f0d880',
     switchThemeOnEnter: 'fantasy',
     shelfLayout: alchemyLayout,
     parameters: {
       roomShape: 'irregular',
       roomSize: [16, 9, 14],
-      floor: { color: '#1a3024', roughness: 0.7, metalness: 0.3, pattern: 'tile' },
-      ceiling: { kind: 'solid', color: '#2a3a28', pattern: 'beam' },
-      walls: { color: '#2a4024', roughness: 0.8, metalness: 0.4, pattern: 'brick' },
-      ambient: { color: '#2a4020', intensity: 0.35 },
-      fog: { color: '#1a3024', near: 12, far: 40 },
+      floor: { color: '#88a878', roughness: 0.7, metalness: 0.25, pattern: 'tile' },
+      ceiling: { kind: 'solid', color: '#b8c898', pattern: 'beam' },
+      walls: { color: '#a0b888', roughness: 0.8, metalness: 0.3, pattern: 'brick' },
+      ambient: { color: '#f0f8d8', intensity: 0.85 },
       lighting: {
-        hemisphere: { intensity: 0.2 },
-        directional: { color: '#a8c08a', intensity: 0.5, shadow: true },
+        hemisphere: { intensity: 0.7 },
+        directional: { color: '#fff8d8', intensity: 1.0, shadow: true },
         spots: [],
         pointLights: Array.from({ length: 8 }, (_, i) => ({
-          color: i % 2 === 0 ? '#88cc44' : '#ccaa44',
-          intensity: 0.7,
+          color: i % 2 === 0 ? '#d8e890' : '#ffd870',
+          intensity: 0.9,
           position: [(-6 + (i % 4) * 4), 3, -4 + Math.floor(i / 4) * 4] as [number, number, number],
-          distance: 5,
+          distance: 6,
           flicker: true,
         })),
         emissiveAccents: [],
       },
-      particles: { dust: 80, orbs: 25 },
+      particles: { dust: 60, orbs: 20 },
       volumetricBeams: 3,
       shelves: { count: 30, pattern: 'grid' },
-      centerProp: { kind: 'alchemy-stand', scale: 1.0, emissive: '#88cc44' },
-      audio: { ambientGain: 0.5, reverb: 'lab' },
+      centerProp: { kind: 'alchemy-stand', scale: 1.0, emissive: '#d8e890' },
+      audio: { ambientGain: 0.45, reverb: 'lab' },
       unlockCondition: { kind: 'themeBooks', theme: 'magic', count: 3 },
     },
   },
 
   void: {
     id: 'void',
-    name: { zh: '虚空深渊', en: 'Void Depths' },
-    description: '暗紫黑色调，悬浮书架于虚空中，下方为无尽星云深渊。',
-    themeColor: '#2a0040',
-    accentColor: '#aa66ff',
+    name: { zh: '星海长廊', en: 'Stellar Gallery' },
+    description: '梦幻紫罗兰渐变天空，温暖星云漂浮，悬浮书架。',
+    themeColor: '#b888d8',
+    accentColor: '#ffc8e8',
     switchThemeOnEnter: 'fantasy',
     shelfLayout: voidLayout,
     parameters: {
       roomShape: 'circle',
       roomSize: [16, 14, 16],
-      floor: { color: '#100018', roughness: 0.3, metalness: 0.5, reflectivity: 0.5, pattern: 'star' },
+      floor: { color: '#9080c0', roughness: 0.4, metalness: 0.3, reflectivity: 0.5, pattern: 'star' },
       ceiling: { kind: 'open' },
-      walls: { color: '#200030', roughness: 0.7, metalness: 0.3 },
-      ambient: { color: '#1a0030', intensity: 0.25 },
-      fog: { color: '#0a0018', near: 18, far: 55 },
+      walls: { color: '#a890d0', roughness: 0.7, metalness: 0.2 },
+      ambient: { color: '#ffe0f0', intensity: 0.8 },
       lighting: {
-        hemisphere: { intensity: 0.15 },
-        directional: { color: '#9966ff', intensity: 0.5, shadow: true },
+        hemisphere: { intensity: 0.7 },
+        directional: { color: '#ffd8f0', intensity: 1.0, shadow: true },
         spots: [],
         pointLights: Array.from({ length: 4 }, (_, i) => ({
-          color: '#aa66ff',
-          intensity: 0.8,
+          color: '#ffb8e8',
+          intensity: 0.9,
           position: [Math.cos((i / 4) * Math.PI * 2) * 7, 5, Math.sin((i / 4) * Math.PI * 2) * 7] as [number, number, number],
           distance: 9,
         })),
         emissiveAccents: [],
       },
-      particles: { dust: 100, runes: 6, stars: 200, pages: 15 },
-      volumetricBeams: 4,
+      particles: { dust: 80, runes: 4, stars: 150, pages: 12 },
+      volumetricBeams: 2,
       shelves: { count: 30, pattern: 'floating' },
-      centerProp: { kind: 'void-portal', scale: 1.0, emissive: '#aa66ff' },
-      audio: { ambientGain: 0.5, reverb: 'void' },
+      centerProp: { kind: 'void-portal', scale: 1.0, emissive: '#ffb8e8' },
+      audio: { ambientGain: 0.4, reverb: 'void' },
       gravityFeel: 'float',
       unlockCondition: { kind: 'themeBooks', theme: 'philosophy', count: 5 },
     },
@@ -571,29 +565,29 @@ export const HALLS: Record<HallId, HallDefinition> = {
     id: 'real',
     name: { zh: '现实之门', en: 'Real World Portal' },
     description: '现代学院风格，明亮、整洁，分类涵盖各学科。',
-    themeColor: '#dcdce0',
-    accentColor: '#3a7ad9',
+    themeColor: '#e0e4ec',
+    accentColor: '#4a7ad9',
     switchThemeOnEnter: 'real',
     shelfLayout: realLayout,
     subjects: realSubjects,
     parameters: {
       roomShape: 'rect',
       roomSize: [20, 8, 14],
-      floor: { color: '#c8b89a', roughness: 0.5, metalness: 0, pattern: 'wood' },
-      ceiling: { kind: 'solid', color: '#f0f0f0', pattern: 'plain' },
-      walls: { color: '#f5f5f7', roughness: 0.9, metalness: 0, pattern: 'plain' },
-      ambient: { color: '#f0f0f0', intensity: 0.7 },
+      floor: { color: '#e8d8b8', roughness: 0.5, metalness: 0, pattern: 'wood' },
+      ceiling: { kind: 'solid', color: '#fafafa', pattern: 'plain' },
+      walls: { color: '#f8f8fa', roughness: 0.9, metalness: 0, pattern: 'plain' },
+      ambient: { color: '#ffffff', intensity: 0.95 },
       lighting: {
-        hemisphere: { intensity: 0.6 },
-        directional: { color: '#ffffff', intensity: 0.8, shadow: true },
+        hemisphere: { intensity: 0.8 },
+        directional: { color: '#ffffff', intensity: 1.2, shadow: true },
         spots: [],
         pointLights: [],
       },
-      particles: { dust: 40 },
+      particles: { dust: 30 },
       volumetricBeams: 2,
       shelves: { count: 15, pattern: 'grid' },
       centerProp: { kind: 'lectern', scale: 1.0 },
-      audio: { ambientGain: 0.3, reverb: 'modern' },
+      audio: { ambientGain: 0.25, reverb: 'modern' },
       unlockCondition: { kind: 'always' },
     },
   },

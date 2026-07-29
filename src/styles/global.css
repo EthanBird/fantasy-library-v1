@@ -3,23 +3,23 @@
    ============================== */
 
 :root {
-  /* 奇幻主题（默认） */
-  --bg-primary: #0a0820;
-  --bg-secondary: #1a1430;
-  --bg-glass: rgba(20, 15, 35, 0.85);
-  --bg-glass-light: rgba(40, 30, 60, 0.6);
-  --border-glass: rgba(212, 175, 55, 0.3);
-  --border-glass-hover: rgba(212, 175, 55, 0.7);
+  /* 奇幻主题（默认 - 温暖明亮） */
+  --bg-primary: #1a1428;
+  --bg-secondary: #2a2038;
+  --bg-glass: rgba(40, 32, 56, 0.88);
+  --bg-glass-light: rgba(60, 50, 80, 0.65);
+  --border-glass: rgba(255, 200, 100, 0.35);
+  --border-glass-hover: rgba(255, 200, 100, 0.7);
 
-  --text-primary: #e8e4d8;
-  --text-secondary: #b8b0a0;
-  --text-muted: #888478;
+  --text-primary: #f5ecd0;
+  --text-secondary: #d4c8a0;
+  --text-muted: #9a9080;
 
-  --accent: #d4af37;
-  --accent-hover: #e6c355;
-  --magic: #8a6fd1;
-  --danger: #c0504d;
-  --success: #4a9;
+  --accent: #ffc857;
+  --accent-hover: #ffdb80;
+  --magic: #b888e8;
+  --danger: #e07060;
+  --success: #6acc8a;
 
   --font-display: 'Georgia', 'Times New Roman', 'STZhongsong', 'Microsoft YaHei', 'Noto Serif SC', serif;
   --font-body: 'Georgia', 'Times New Roman', 'STZhongsong', 'Microsoft YaHei', 'Noto Serif SC', serif;

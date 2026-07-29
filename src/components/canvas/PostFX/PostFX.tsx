@@ -1,31 +1,35 @@
 import { useMemo } from 'react';
-import { EffectComposer, Bloom, Vignette, ChromaticAberration, BrightnessContrast, HueSaturation } from '@react-three/postprocessing';
-import { BlendFunction } from 'postprocessing';
+import { EffectComposer, Bloom, Vignette, HueSaturation, BrightnessContrast } from '@react-three/postprocessing';
 import { useSettingsStore } from '@/stores/settingsStore';
-import { Vector2 } from 'three';
+import { useTimeOfDay } from '@/lib/hooks/useTimeOfDay';
+import { BlendFunction } from 'postprocessing';
 
 export function PostFX() {
   const enableBloom = useSettingsStore((s) => s.visuals.enableBloom);
   const quality = useSettingsStore((s) => s.visuals.qualityPreset);
-
-  const aberrationOffset = useMemo(() => new Vector2(0.0008, 0.0008), []);
+  const daylight = useTimeOfDay();
 
   if (quality === 'low') return null;
+
+  // 根据昼夜调整 Bloom 强度（白天稍弱，晚上稍强）
+  const isDay = daylight.sunAngle > 0 && daylight.sunAngle < Math.PI;
+  const bloomStrength = isDay ? 0.35 : 0.6;
 
   return (
     <EffectComposer multisampling={quality === 'ultra' ? 4 : 0} disableNormalPass>
       {enableBloom && (
         <Bloom
-          intensity={quality === 'high' || quality === 'ultra' ? 0.7 : 0.4}
-          luminanceThreshold={0.6}
-          luminanceSmoothing={0.4}
+          intensity={bloomStrength}
+          luminanceThreshold={0.85}
+          luminanceSmoothing={0.3}
           mipmapBlur
+          radius={0.6}
         />
       )}
-      <HueSaturation hue={0} saturation={0.05} />
-      <BrightnessContrast brightness={0} contrast={0.05} />
-      {quality !== 'low' && <ChromaticAberration blendFunction={BlendFunction.NORMAL} offset={aberrationOffset} />}
-      <Vignette eskil={false} offset={0.3} darkness={0.5} />
+      <HueSaturation hue={0} saturation={0.1} />
+      <BrightnessContrast brightness={0.05} contrast={0.08} />
+      {/* 极轻的暗角，不再有"恐怖"感 */}
+      <Vignette eskil={false} offset={0.5} darkness={0.25} />
     </EffectComposer>
   );
 }

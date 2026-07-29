@@ -9,7 +9,6 @@ import { ModalLayer } from '@/components/modals/ModalLayer';
 import { Notification } from '@/components/hud/Notification';
 import { BootScreen } from '@/components/BootScreen';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
-import { Fallback2D } from '@/components/Fallback2D';
 
 export default function App() {
   const [booted, setBooted] = useState(false);
@@ -58,21 +57,24 @@ export default function App() {
   return (
     <ErrorBoundary
       fallback={(error, reset) => (
-        <>
-          <div style={{
-            position: 'fixed', top: 0, left: 0, right: 0, zIndex: 1000,
-            padding: '10px 20px', background: 'rgba(192, 80, 77, 0.2)', borderBottom: '1px solid #c0504d',
-            color: '#e8a89e', fontSize: 12,
-            display: 'flex', alignItems: 'center', gap: 12,
-          }}>
-            <span>⚠️ 3D 渲染失败：{error.message}</span>
-            <button onClick={reset} style={{ marginLeft: 'auto' }}>重试 3D</button>
-            <span style={{ color: '#888' }}>已自动降级到 2D 模式 ↓</span>
+        <div style={{
+          position: 'fixed', inset: 0,
+          background: 'linear-gradient(135deg, #2a1f3a 0%, #3a2f5a 100%)',
+          color: '#f5ecd0',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          fontFamily: 'system-ui, sans-serif', padding: 24,
+        }}>
+          <div style={{ maxWidth: 480, textAlign: 'center' }}>
+            <div style={{ fontSize: 60, marginBottom: 16 }}>⚠️</div>
+            <h1 style={{ color: '#ffc857', marginBottom: 12 }}>运行时错误</h1>
+            <pre style={{ background: 'rgba(0,0,0,0.3)', padding: 12, borderRadius: 6, fontSize: 12, overflow: 'auto', textAlign: 'left' }}>
+              {error.message}
+            </pre>
+            <button onClick={reset} style={{ marginTop: 16, padding: '10px 24px', background: '#ffc857', color: '#1a1428', border: 'none', borderRadius: 6, fontWeight: 600, cursor: 'pointer' }}>
+              重试
+            </button>
           </div>
-          <div style={{ paddingTop: 50 }}>
-            <Fallback2D />
-          </div>
-        </>
+        </div>
       )}
     >
       <>
