@@ -8,11 +8,12 @@ import { HUD } from '@/components/hud/HUD';
 import { ModalLayer } from '@/components/modals/ModalLayer';
 import { Notification } from '@/components/hud/Notification';
 import { BootScreen } from '@/components/BootScreen';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
+import { Fallback2D } from '@/components/Fallback2D';
 
 export default function App() {
   const [booted, setBooted] = useState(false);
   const init = useBookStore((s) => s.init);
-  const setTheme = useSettingsStore((s) => s.setTheme);
   const readTheme = useSettingsStore((s) => s.gameplay.readTheme);
   const setBootProgress = useUIStore((s) => s.setBootProgress);
 
@@ -32,11 +33,13 @@ export default function App() {
         await new Promise((r) => setTimeout(r, 300));
 
         setBootProgress({ step: '正在点燃魔法灯…', progress: 0.7 });
-        audioEngine.init();
-        audioEngine.setMaster(useSettingsStore.getState().audio.master);
-        audioEngine.setAmbient(useSettingsStore.getState().audio.ambient);
-        audioEngine.setSfx(useSettingsStore.getState().audio.sfx);
-        audioEngine.setMuted(useSettingsStore.getState().audio.muted);
+        try {
+          audioEngine.init();
+          audioEngine.setMaster(useSettingsStore.getState().audio.master);
+          audioEngine.setAmbient(useSettingsStore.getState().audio.ambient);
+          audioEngine.setSfx(useSettingsStore.getState().audio.sfx);
+          audioEngine.setMuted(useSettingsStore.getState().audio.muted);
+        } catch {/* 音频初始化失败不影响 3D 渲染 */}
         await new Promise((r) => setTimeout(r, 300));
 
         setBootProgress({ step: '欢迎来到异世界图书馆', progress: 1.0 });
@@ -53,11 +56,31 @@ export default function App() {
   if (!booted) return <BootScreen />;
 
   return (
-    <>
-      <Scene />
-      <HUD />
-      <ModalLayer />
-      <Notification />
-    </>
+    <ErrorBoundary
+      fallback={(error, reset) => (
+        <>
+          <div style={{
+            position: 'fixed', top: 0, left: 0, right: 0, zIndex: 1000,
+            padding: '10px 20px', background: 'rgba(192, 80, 77, 0.2)', borderBottom: '1px solid #c0504d',
+            color: '#e8a89e', fontSize: 12,
+            display: 'flex', alignItems: 'center', gap: 12,
+          }}>
+            <span>⚠️ 3D 渲染失败：{error.message}</span>
+            <button onClick={reset} style={{ marginLeft: 'auto' }}>重试 3D</button>
+            <span style={{ color: '#888' }}>已自动降级到 2D 模式 ↓</span>
+          </div>
+          <div style={{ paddingTop: 50 }}>
+            <Fallback2D />
+          </div>
+        </>
+      )}
+    >
+      <>
+        <Scene />
+        <HUD />
+        <ModalLayer />
+        <Notification />
+      </>
+    </ErrorBoundary>
   );
 }
