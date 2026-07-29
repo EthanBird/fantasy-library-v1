@@ -18,15 +18,6 @@ export default defineConfig({
     outDir: 'dist',
     sourcemap: false,
     chunkSizeWarningLimit: 2000,
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          three: ['three', '@react-three/fiber', '@react-three/drei', '@react-three/postprocessing'],
-          postprocessing: ['postprocessing'],
-          ai: ['react-markdown', 'remark-gfm', 'rehype-katex', 'katex'],
-        },
-      },
-    },
   },
   worker: {
     format: 'es',
